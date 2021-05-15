@@ -17,7 +17,22 @@ type Habilidades=[String]
 type Persona=(Edad,Suenios,Nombre,Felicidonios,Habilidades)
 
 laura :: Persona
-laura=(21,3,"Laura Hernandez",130,["Jugar al futbol","Mecanica","Tocar la bateria"])--EJEMPLO DE UNA PERSONA
+laura=(21,3,"Laura Hernandez",130,["Jugar al futbol","Mecanica","Tocar la bateria"])
+
+roberto :: Persona
+roberto=(25,2,"Roberto",101,["Jugar al futbol","Mecanica","Tocar la bateria"])
+
+melina :: Persona
+melina=(26,2,"Melina",100,["Jugar al futbol","Mecanica","Tocar la bateria"])
+
+ariel :: Persona
+ariel=(18,1,"Ariel",50,["Jugar al futbol","Mecanica","Tocar la bateria"])
+
+evangelina :: Persona
+evangelina=(18,1,"Evangelina",14,["Jugar al futbol","Mecanica","Tocar la bateria"])
+
+maximiliano :: Persona
+maximiliano=(18,1,"Maximiliano",12,["Jugar al futbol","Mecanica","Tocar la bateria"])
 
 -- PUNTO 1 
 
@@ -33,6 +48,14 @@ satisfaccion (edad,suenios,_,felicidonios,_)
     | felicidonios>50 && felicidonios<=100 =suenios*felicidonios
     | otherwise=div felicidonios 2
 
+-- PRUEBA ------------------
+-- *Main> satisfaccion roberto
+-- 2525   
+-- *Main> satisfaccion melina
+-- 200    
+-- *Main> satisfaccion ariel
+-- 25 
+
 -- Punto b: Grado de ambición de una persona
 --      Saber el grado de ambición de una persona
 --           ●	Si los felicidonios son > 100, el grado de ambición son los felicidonios * la cantidad de sueños
@@ -43,6 +66,15 @@ ambicion (edad,suenios,_,felicidonios,_)
     | felicidonios>100 =felicidonios*suenios
     | felicidonios>50 && felicidonios<=100= edad*suenios
     | otherwise= suenios*2
+
+-- PRUEBA --------------
+-- *Main> ambicion roberto
+-- 202    
+-- *Main> ambicion melina
+-- 52
+-- *Main> ambicion ariel
+-- 2
+
 
 -- PUNTO 2
 
@@ -55,15 +87,33 @@ ambicion (edad,suenios,_,felicidonios,_)
 
 nombreLargo (_,_,nombre,_,_)=((>10).length) nombre
 
+-- PRUEBA  ------------------
+-- *Main> nombreLargo evangelina
+-- False
+-- *Main> nombreLargo maximiliano
+-- True
+
 -- Parte b: Persona suertuda
 --       Saber si una persona es suertuda, que como todos sabemos esto se cumple si el triple de su coeficiente de satisfacción es par.
 
 suertuda=even.(*3).satisfaccion
 
+-- PRUEBA  ------------------
+-- *Main> suertuda evangelina
+-- False
+-- *Main> suertuda maximiliano
+-- True
+
 -- Parte c: Nombre lindo
 --       Saber si una persona tiene un nombre lindo, esto es que su última letra termine en 'a'.
 
 nombreLindo (_,_,nombre,_,_)= ((=='a').last) nombre
+
+-- PRUEBA ----------
+-- *Main> nombreLindo ariel
+-- False
+-- *Main> nombreLindo melina
+-- True
 
 -- Punto 3: Los sueños sueños son...  
 --       Cada persona tiene sueños que cuando los cumple pasan distintas cosas. Modelar los siguientes sueños:
@@ -81,6 +131,7 @@ nombreLindo (_,_,nombre,_,_)= ((=='a').last) nombre
 
 recibirse::String->Persona->Persona
 recibirse carrera (edad,suenios,nombre,felicidonios,habilidades)=(edad,suenios,nombre,felicidonios+1000,habilidades ++ [carrera])
+
 
 viajar ciudad (edad,suenios,nombre,felicidonios,habilidades)
     |ciudad=="bonus"=(edad,suenios,nombre,felicidonios+100,habilidades)
