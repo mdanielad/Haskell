@@ -5,7 +5,7 @@
 --     Costa Carla
 --     Davyt M.Daniela
 --     Fiorentino Maximiliano
---     González Nimia
+--     González Nimiatype Edad= Int
 
 
 --DOMINIO
@@ -17,7 +17,7 @@ type Habilidades=[String]
 type Persona=(Edad,Suenios,Nombre,Felicidonios,Habilidades)
 
 laura :: Persona
-laura=(21,3,"Laura Hernandez",130,["Jugar al futbol","Mecanica","Tocar la bateria"])
+laura=(21,3,"Laura Hernandez",130,["Jugar al futbol","Mecanica","Tocar la bateria"])--EJEMPLO DE UNA PERSONA
 
 -- PUNTO 1 
 
@@ -28,10 +28,10 @@ laura=(21,3,"Laura Hernandez",130,["Jugar al futbol","Mecanica","Tocar la bateri
 --           ●	En caso contrario, es la división entera de los felicidonios por 2
 
 satisfaccion::(Int,Int,String,Int,[String])->Int
-satisfaccion (a,b,_,c,_)
-    | c > 100 =c*a
-    | c>50 && c<=100 =b*c
-    | otherwise=div c 2
+satisfaccion (edad,suenios,_,felicidonios,_)
+    | felicidonios > 100 =felicidonios*edad
+    | felicidonios>50 && felicidonios<=100 =suenios*felicidonios
+    | otherwise=div felicidonios 2
 
 -- Punto b: Grado de ambición de una persona
 --      Saber el grado de ambición de una persona
@@ -39,11 +39,10 @@ satisfaccion (a,b,_,c,_)
 --           ●	Si los felicidonios son <= 100 y > 50, será la edad * la cantidad de sueños
 --           ●	En caso contrario, serán la cantidad de sueños * 2
 
-
-ambicion (a,b,_,c,_)
-    | c>100 =c*b
-    | c>50 && c<=100= a*b
-    | otherwise= b*2
+ambicion (edad,suenios,_,felicidonios,_)
+    | felicidonios>100 =felicidonios*suenios
+    | felicidonios>50 && felicidonios<=100= edad*suenios
+    | otherwise= suenios*2
 
 -- PUNTO 2
 
@@ -54,7 +53,7 @@ ambicion (a,b,_,c,_)
 -- Punto a: Nombre largo
 --       Saber si una persona tiene un nombre largo, de más de 10 caracteres.
 
-nombreLargo (_,_,a,_,_)=((>10).length) a
+nombreLargo (_,_,nombre,_,_)=((>10).length) nombre
 
 -- Parte b: Persona suertuda
 --       Saber si una persona es suertuda, que como todos sabemos esto se cumple si el triple de su coeficiente de satisfacción es par.
@@ -63,7 +62,8 @@ suertuda=even.(*3).satisfaccion
 
 -- Parte c: Nombre lindo
 --       Saber si una persona tiene un nombre lindo, esto es que su última letra termine en 'a'.
-nombreLindo (_,_,a,_,_)= ((=='a').last) a
+
+nombreLindo (_,_,nombre,_,_)= ((=='a').last) nombre
 
 -- Punto 3: Los sueños sueños son...  
 --       Cada persona tiene sueños que cuando los cumple pasan distintas cosas. Modelar los siguientes sueños:
@@ -78,3 +78,17 @@ nombreLindo (_,_,a,_,_)= ((=='a').last) a
 --              ●	para los conformistas, el sueño “que todo siga igual”, que mantiene a la persona sin cambios.
 --              ●	combo perfecto: se recibe de la carrera de "Medicina", viaja a "Berazategui" y "París" y como bonus extra suma 
 --                  100 felicidonios por el combo. Definirlo únicamente con funciones existentes.
+
+recibirse::String->Persona->Persona
+recibirse carrera (edad,suenios,nombre,felicidonios,habilidades)=(edad,suenios,nombre,felicidonios+1000,habilidades ++ [carrera])
+
+viajar ciudad (edad,suenios,nombre,felicidonios,habilidades)
+    |ciudad=="bonus"=(edad,suenios,nombre,felicidonios+100,habilidades)
+    |otherwise=(edad+1,suenios,nombre,felicidonios+100*length(ciudad),habilidades)
+
+enamorarse (a,b,c,d,e) (_,_,_,f,_)= (a,b,c,d+f,e)
+
+comboPerfecto::Persona->Persona
+comboPerfecto persona=viajar "bonus" (recibirse "Medicina" (viajar "Paris" (viajar "Berazategui" persona)))
+
+queTodoSigaIgual= id
